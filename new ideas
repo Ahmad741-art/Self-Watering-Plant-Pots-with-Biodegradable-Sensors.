@@ -1,0 +1,55 @@
+import random
+import time
+
+class BiodegradableSensor:
+    def __init__(self, moisture_threshold):
+        self.moisture_threshold = moisture_threshold
+        self.degraded = False
+    
+    def degrade(self):
+        print("Biodegradable sensor is starting to degrade...")
+        time.sleep(2)
+        self.degraded = True
+        print("Sensor has fully degraded.")
+    
+    def check_moisture(self):
+        if not self.degraded:
+            soil_moisture = random.uniform(0, 1)  # Random soil moisture level between 0 and 1
+            print(f"Current soil moisture level: {soil_moisture:.2f}")
+            if soil_moisture < self.moisture_threshold:
+                self.release_water()
+            else:
+                print("Soil moisture is adequate, no water released.")
+        else:
+            print("Sensor has degraded and can no longer monitor soil moisture.")
+
+    def release_water(self):
+        print("Moisture level is low. Releasing water...")
+        time.sleep(1)
+        print("Water released into the soil.")
+
+class SelfWateringPlantPot:
+    def __init__(self, moisture_threshold=0.3):
+        self.sensor = BiodegradableSensor(moisture_threshold)
+    
+    def water_plants(self):
+        print("Checking soil moisture with biodegradable sensor...")
+        self.sensor.check_moisture()
+    
+    def degrade_sensor(self):
+        print("Over time, the sensor will degrade naturally.")
+        self.sensor.degrade()
+
+# Example usage
+pot = SelfWateringPlantPot(moisture_threshold=0.3)
+
+# Simulate checking and watering plants over time
+for _ in range(3):
+    pot.water_plants()
+    time.sleep(2)
+
+# Simulate sensor degradation over time
+pot.degrade_sensor()
+
+# Attempt to check moisture after sensor degradation
+pot.water_plants()
